@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/news-image-20261125/GAD2412/world-news-2026-11-25/rank.svg)](https://make.fun/bounty/news-image-20261125/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261125)
 [![reward](https://make.fun/badge/news-image-20261125/GAD2412/world-news-2026-11-25/reward.svg)](https://make.fun/bounty/news-image-20261125?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261125)
 
-One front page summing up the world news of Wednesday 25 November 2026: 47 stories across
+One front page summing up the world news of Wednesday 25 November 2026: 43 stories across
 10 regions plus global items, each tagged CONFIRMED, OFFICIAL, REPORTED or CLAIM, with a UTC
 timeline, the day in numbers, a dotted world map and a date check of earlier news left out.
 `render.py` draws the page with Pillow and macOS system fonts (2x, LANCZOS, 240 colours);

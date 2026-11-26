@@ -64,15 +64,6 @@ def ellipse(x, y, w, h, fill=None, outline=None, width=1):
     d.ellipse(P(x, y, x + w, y + h), fill=fill, outline=outline, width=round(width * S))
 
 
-def star(cx, cy, r, fill):
-    pts = []
-    for k in range(10):
-        a = -math.pi / 2 + k * math.pi / 5
-        rr = r if k % 2 == 0 else r * 0.42
-        pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
-    poly(pts, fill=fill)
-
-
 def tw(s, f):
     return d.textlength(s, font=f) / S
 
@@ -225,14 +216,10 @@ BRIEFS = [
     ("Geneva", "Europe", "Sport", "REPORTED", "Chess title: Gukesh–Sindarov game 2 drawn, 1–1", "Guardian", (46.2, 6.1)),
     ("Paris", "Europe", "Sport", "CONFIRMED", "PSG 2–2 Roma; Sporting 2–2 Man Utd in Champions League", "AJ, Guardian", (48.9, 2.3)),
     ("Madrid", "Europe", "Migration", "CONFIRMED", "Kilmar Abrego Garcia lands after leaving the US", "AJ, Reuters", (40.4, -3.7)),
-    ("Brussels", "Europe", "Politics", "REPORTED", "Puigdemont says he will return to Spain on 12 Dec", "AJ", (50.8, 4.4)),
-    ("Basingstoke", "Europe", "Sport", "CONFIRMED", "Raheem Sterling avoids jail for dangerous driving", "Guardian, BBC", (51.3, -1.1)),
-    ("Kharkiv", "Europe", "War", "CLAIM", "Ukraine says Blysk laser downed a Russian jet drone", "AJ", (50.0, 36.2)),
     ("Washington", "N. America", "Economy", "CONFIRMED", "Q3 growth revised up to 4.3%; jobless claims 189,000", "Boston Report, NTD", (38.9, -77.0)),
     ("Iowa", "N. America", "Environment", "CONFIRMED", "US Army detonates ~4,500 kg of lead azide", "AJ, BBC", (41.0, -91.0)),
     ("Albany", "N. America", "Tech", "OFFICIAL", "New York bans AI-chatbot toys for five years", "Guardian", (42.7, -73.8)),
     ("New York", "N. America", "Weather", "REPORTED", "Macy's parade moved to Saturday over high winds", "Guardian", (40.7, -74.0)),
-    ("New York", "N. America", "Sport", "REPORTED", "MLB sues players' union ahead of likely lockout", "Guardian", (40.7, -74.0)),
     ("Quito", "S. America", "Security", "REPORTED", "Ecuador says US 'action plan' agreed after pause", "AJ", (-0.2, -78.5)),
     ("Caracas", "S. America", "Labour", "REPORTED", "Police clash with minimum-wage marchers", "AJ", (10.5, -66.9)),
     ("Brasília", "S. America", "Finance", "REPORTED", "Monetary Council curbs revolving card debt", "Rio Times", (-15.8, -47.9)),
@@ -310,13 +297,6 @@ def pic_tariff(x, y, w, h):
             for k in range(1, 4):
                 line([(cx + k * cw / 4, cy + 1.5), (cx + k * cw / 4, cy + ch - 2.5)],
                      fill=tuple(max(0, v - 45) for v in col), width=0.7)
-    # front row: the named targets
-    names = [("CHINA", (196, 40, 40)), ("EU", (30, 70, 160)), ("INDIA", (220, 120, 30)), ("TAIWAN", (40, 120, 90))]
-    fw_ = w * 0.18
-    for i, (nm, col) in enumerate(names):
-        fx = x + w * 0.13 + i * (fw_ + 2)
-        rect(fx, hull_y - ch * 1.25, fw_, ch * 1.25, fill=col, outline=(20, 20, 24), width=0.5)
-        text(fx + fw_ / 2, hull_y - ch * 0.62, nm, font("heavy", 9.5), (255, 255, 255), anchor="mm")
     # tariff tag
     tx, ty = x + w * 0.70, y + h * 0.08
     poly([(tx, ty + 10), (tx + 12, ty), (tx + 58, ty), (tx + 58, ty + 20), (tx + 12, ty + 20)],
@@ -361,21 +341,6 @@ def pic_rocket(x, y, w, h):
         p0 = (rx + 10 + (sx - rx - 26) * t0, ry - 4 - (ry - sy - 10) * t0 ** 0.6)
         p1 = (rx + 10 + (sx - rx - 26) * t1, ry - 4 - (ry - sy - 10) * t1 ** 0.6)
         line([p0, p1], fill=(230, 230, 255), width=0.8)
-    text(sx + 11, sy + 16, "TIANGONG", font("heavy", 9), (255, 255, 255), anchor="mt")
-    text(rx + 16, ry + 36, "SHENZHOU-24", font("heavy", 9), (255, 255, 255), anchor="lm")
-    # flags: Pakistan and China
-    fx, fy, fw_, fh = x + 8, y + 8, 30, 20
-    rect(fx, fy, fw_, fh, fill=(255, 255, 255))
-    rect(fx + fw_ * 0.25, fy, fw_ * 0.75, fh, fill=(1, 102, 56))
-    cx_, cy_ = fx + fw_ * 0.62, fy + fh * 0.5
-    ellipse(cx_ - 6, cy_ - 6, 12, 12, fill=(255, 255, 255))
-    ellipse(cx_ - 4, cy_ - 7.5, 12, 12, fill=(1, 102, 56))
-    star(cx_ + 3.5, cy_ - 2.5, 2.4, (255, 255, 255))
-    gx = fx + fw_ + 5
-    rect(gx, fy, fw_, fh, fill=(222, 41, 16))
-    star(gx + 6, fy + 6, 3.6, (255, 222, 0))
-    for sx2, sy2 in ((11.5, 2.5), (13.5, 5), (13.5, 8.5), (11.5, 11)):
-        star(gx + sx2, fy + sy2, 1.2, (255, 222, 0))
 
 
 def pic_markets(x, y, w, h):
@@ -384,16 +349,8 @@ def pic_markets(x, y, w, h):
         line([(x, y + k * h / 5), (x + w, y + k * h / 5)], fill=(50, 56, 68), width=0.6)
     pts = []
     vals = [0.25, 0.22, 0.28, 0.20, 0.26, 0.30, 0.36, 0.44, 0.50, 0.62, 0.70, 0.78, 0.74, 0.82]
-    cwid = w * 0.52                              # chart on the left, ticker board on the right
     for i, v in enumerate(vals):
-        pts.append((x + 8 + i * (cwid - 16) / (len(vals) - 1), y + h * v))
-    bx, bw = x + cwid + 6, w - cwid - 30
-    rect(bx, y + 22, bw, h - 30, fill=(40, 44, 56), outline=(80, 86, 100), width=0.6)
-    for k, (nm, val) in enumerate((("KOSPI", "−6.2%"), ("SK HYNIX", "−11.1%"), ("SAMSUNG", "−9.9%"),
-                                   ("TAIEX", "−4.8%"))):
-        yy = y + 30 + k * (h - 42) / 4
-        text(bx + 6, yy, nm, font("heavy", 9.5), (210, 214, 224))
-        text(bx + bw - 6, yy, val, font("heavy", 10.5), (255, 96, 80), anchor="ra")
+        pts.append((x + 8 + i * (w - 16) / (len(vals) - 1), y + h * v))
     for i, (px, py) in enumerate(pts):          # volume bars
         bh = 6 + (i * 7 % 11)
         rect(px - 2.5, y + h - bh - 2, 5, bh, fill=(80, 60, 66) if i > 5 else (60, 80, 70))
@@ -401,7 +358,7 @@ def pic_markets(x, y, w, h):
     ex, ey = pts[-1]
     ellipse(ex - 3, ey - 3, 6, 6, fill=(235, 70, 60))
     poly([(ex - 6, ey + 6), (ex + 6, ey + 6), (ex, ey + 14)], fill=(235, 70, 60))
-    text(x + 8, y + 6, "SEOUL · TAIPEI · TOKYO", font("bold", 9), (170, 176, 190))
+    text(x + 8, y + 6, "KOSPI  TAIEX  S&P 500", font("bold", 9), (170, 176, 190))
 
 
 def pic_fire(x, y, w, h):
@@ -812,7 +769,7 @@ for i, (t, s) in enumerate(UTC):
          anchor="lm", maxw=seg - tw(t, font("heavy", 9.5)) - 8, tag="utc" + t)
 
 # leads
-ly, lh = uy + 21, 220
+ly, lh = uy + 24, 222
 gap = 12
 lw = (W - 2 * M - 2 * gap) / 3
 for i, s in enumerate(LEADS):
@@ -820,15 +777,15 @@ for i, s in enumerate(LEADS):
 line([(M, ly + lh + 6), (W - M, ly + lh + 6)], RULE, 0.8)
 
 # cards: two rows of five
-cy0, ch = ly + lh + 10, 140
+cy0, ch = ly + lh + 12, 140
 cg = 10
 cwid = (W - 2 * M - 4 * cg) / 5
 for i, s in enumerate(CARDS):
     r, c = divmod(i, 5)
-    small_card(s, M + c * (cwid + cg), cy0 + r * (ch + 8), cwid, ch)
+    small_card(s, M + c * (cwid + cg), cy0 + r * (ch + 9), cwid, ch)
 
 # bottom band: map + numbered briefs
-by = cy0 + 2 * ch + 8 + 8
+by = cy0 + 2 * ch + 9 + 9
 line([(M, by - 4), (W - M, by - 4)], INK, 1.2)
 mw, mh = 292, 150
 text(M, by + 4, "WHERE IT HAPPENED", font("heavy", 9.5), RED)
@@ -852,14 +809,14 @@ bx = M + mw + 14
 text(bx, by + 4, "ALSO ON WEDNESDAY 25 NOVEMBER", font("heavy", 9.5), RED)
 colw = (W - M - bx - 12) / 2
 per_col = math.ceil(len(BRIEFS) / 2)
-cityf = font("demi", 9.2)
-bf = font("sans", 8.9)
+cityf = font("demi", 9.4)
+bf = font("sans", 9.0)
 LETTER = {"CONFIRMED": "C", "OFFICIAL": "O", "REPORTED": "R", "CLAIM": "CL"}
 for i, (city, reg, fld, st, t, src, _) in enumerate(BRIEFS):
     n = len(ALL) + 1 + i
     col, row = divmod(i, per_col)
     xx = bx + col * (colw + 12)
-    yy = by + 17 + row * 11.45
+    yy = by + 18 + row * 12.1
     ellipse(xx, yy - 0.5, 11, 11, fill=RCOL[reg])
     text(xx + 5.5, yy + 5, str(n), font("heavy", 7.2), (255, 255, 255), anchor="mm")
     text(xx + 14, yy + 5, city, cityf, RCOL[reg], anchor="lm")
@@ -870,7 +827,7 @@ for i, (city, reg, fld, st, t, src, _) in enumerate(BRIEFS):
     chip(xx + colw, yy, lt, STATUS[st], f=font("heavy", 7.5), h=10, pad=2.5, anchor_right=True)
 
 # date check
-dy = by + 17 + per_col * 11.45 + 5
+dy = by + 18 + per_col * 12.1 + 6
 dh = 50
 rect(M, dy, W - 2 * M, dh, fill=(255, 250, 236), outline=RED, width=1.2)
 text(M + 7, dy + 5, "DATE CHECK", font("heavy", 10.5), RED)
@@ -882,7 +839,7 @@ text(M + 7, dy + 39.5, "NOT YET", font("heavy", 8.6), GREY)
 text(M + 92, dy + 39, NOT_YET, font("med", 8.8), (60, 60, 66), maxw=W - 2 * M - 100, tag="notyet")
 
 # legend + sources
-gy = dy + dh + 8
+gy = dy + dh + 9
 x0 = M
 for k, v in STATUS.items():
     x0 += chip(x0, gy - 5.5, k, v, f=font("heavy", 7.8), h=11) + 4
