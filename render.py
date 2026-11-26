@@ -107,146 +107,169 @@ def chip(x, y, s, bg, f=None, fg=(255, 255, 255), pad=3, h=12, anchor_right=Fals
 
 
 # ---------------------------------------------------------------- stories
-# region, field, status; pin = (lat, lon) for the numbered map pins
+# Every story: number, dateline city, region, field, status. Sources in FACTS.md.
+REGIONS = [  # name, short label, colour
+    ("N. America", "N. AMERICA", (38, 70, 150)),
+    ("S. America", "S. AMERICA", (196, 92, 40)),
+    ("Europe", "EUROPE", (30, 112, 170)),
+    ("Middle East", "MIDDLE EAST", (178, 52, 40)),
+    ("N. Africa", "N. AFRICA", (150, 104, 44)),
+    ("Sub-Sah. Africa", "SUB-SAH. AFRICA", (206, 146, 22)),
+    ("South Asia", "S. ASIA", (128, 112, 36)),
+    ("East Asia", "E. ASIA", (24, 128, 112)),
+    ("SE Asia", "SE ASIA", (84, 142, 58)),
+    ("Oceania", "OCEANIA", (92, 80, 160)),
+    ("Global", "GLOBAL", (104, 104, 112)),
+]
+RCOL = {r[0]: r[2] for r in REGIONS}
+
 LEADS = [
-    dict(n=1, pic="tariff", fig="14", lab="TRADE PARTNERS", place="USA / WORLD", field="Trade",
+    dict(n=1, pic="tariff", fig="14", lab="TRADE PARTNERS", place="WASHINGTON", field="Trade",
          region="N. America", time="by 14:55 UTC", status="OFFICIAL", pin=(38.9, -77.0),
          head="US proposes new tariffs on 14 trading partners",
-         dek="The trade representative's office names China, the EU, India and Taiwan over "
-             "'excess capacity'; China would face an extra 20%. Duties would start early next year.",
+         dek="USTR targets China, the EU, India and Taiwan over 'excess capacity'; China "
+             "faces an extra 20%.",
+         why="First big tariff move since February's Supreme Court ruling.",
          src="Al Jazeera · Guardian · Reuters"),
-    dict(n=2, pic="rocket", fig="00:18", lab="UTC LIFT-OFF", place="CHINA / PAKISTAN", field="Space",
-         region="South Asia", time="00:18 UTC", status="CONFIRMED", pin=(40.0, 98.5),
-         head="Pakistan's first astronaut reaches Tiangong",
-         dek="Shenzhou-24 lifts off from Jiuquan; Muhammad Zeeshan Ali becomes the first "
-             "foreign astronaut aboard China's space station, for a stay of 5 to 10 days.",
-         src="BBC · Al Jazeera · Reuters"),
-    dict(n=3, pic="markets", fig="−6.2%", lab="KOSPI", place="ASIA · WALL ST", field="Markets",
-         region="East Asia", time="Asia session · 21:00 UTC", status="CONFIRMED", pin=(37.5, 127.0),
-         head="AI doubts shake markets: Kospi falls 6.2%",
-         dek="Taiwan's Taiex closes 4.8% lower. In New York the S&P 500 is down as much as "
-             "3.2% before closing just 0.3% lower; the Dow ends up 0.3%.",
+    dict(n=2, pic="markets", fig="−6.2%", lab="KOSPI", place="SEOUL · TAIPEI · TOKYO", field="Markets",
+         region="East Asia", time="Asia close · 21:00 UTC", status="CONFIRMED", pin=(37.5, 127.0),
+         head="AI doubts sink Asian chip stocks: Kospi −6.2%",
+         dek="SK hynix −11.1%, Samsung −9.9%, Taiex −4.8%, Nikkei −2.8%. The S&P 500 fell as much "
+             "as 3.2% before closing 0.3% lower.",
+         why="Reverses Tuesday's rally on Jensen Huang's return to Nvidia.",
          src="Al Jazeera · AP"),
+    dict(n=3, pic="rocket", fig="00:18", lab="UTC LIFT-OFF", place="JIUQUAN, CHINA", field="Space",
+         region="South Asia", time="00:18 UTC", status="CONFIRMED", pin=(40.0, 98.5),
+         head="Pakistan's first astronaut docks at China's station",
+         dek="Shenzhou-24 carries Muhammad Zeeshan Ali, 40, to Tiangong with Tang Hongbo and "
+             "Wu Yi; he stays 5 to 10 days.",
+         why="Tiangong takes its first foreign astronaut.",
+         src="BBC · Al Jazeera · Reuters"),
 ]
 
 CARDS = [
-    dict(n=4, pic="fire", fig="31", lab="KILLED", place="CAIRO, EGYPT", field="Disaster",
-         region="Africa", time="evening", status="CONFIRMED", pin=(30.0, 31.2),
-         head="Fuel tanker blaze on Cairo ring road",
-         dek="Truck overturns and burns in Warraq, Giza; health ministry counts 31 dead.",
+    dict(n=4, pic="fire", fig="31", lab="KILLED", place="GIZA, EGYPT", field="Disaster",
+         region="N. Africa", time="evening", status="CONFIRMED", pin=(30.0, 31.2),
+         head="Fuel tanker blaze kills 31 on Cairo ring road",
+         dek="Truck overturns and burns in Warraq; 21 injured.",
          src="Al Jazeera · BBC · AFP"),
-    dict(n=5, pic="gavel", fig="1 of 3", lab="CASES", place="ISRAEL", field="Justice",
+    dict(n=5, pic="gavel", fig="1 of 3", lab="CASES", place="JERUSALEM", field="Justice",
          region="Middle East", time="by 19:47", status="CONFIRMED", pin=(31.8, 35.2),
          head="Judges urge dropping Netanyahu bribery case",
          dek="Court doubts the media-favours charge; he calls for the trial to end.",
          src="BBC · Al Jazeera"),
-    dict(n=6, pic="sats", fig="1M", lab="ORBITAL MODULES", place="USA", field="Tech",
+    dict(n=6, pic="sats", fig="1M", lab="ORBITAL MODULES", place="WASHINGTON", field="Tech",
          region="N. America", time="by 19:13", status="OFFICIAL", pin=(38.9, -77.0),
          head="FCC clears SpaceX data centres in orbit",
-         dek="'Starmind' licence covers up to 1,000,000 compute modules in space.",
+         dek="'Starmind' licence covers up to 1,000,000 compute modules.",
          src="Al Jazeera · Guardian"),
-    dict(n=7, pic="energy", fig="+26%", lab="PRICE CAP", place="UK", field="Energy",
+    dict(n=7, pic="energy", fig="+26%", lab="PRICE CAP", place="LONDON", field="Energy",
          region="Europe", time="by 00:03", status="OFFICIAL", pin=(51.5, -0.1),
-         head="UK energy bills to jump from January",
-         dek="Ofgem cap: a typical bill rises from £1,723 to £2,166 a year.",
+         head="UK energy price cap to jump 26% in January",
+         dek="Ofgem: typical bill rises from £1,723 to £2,166 a year.",
          src="BBC · Guardian"),
-    dict(n=8, pic="garment", fig="+36%", lab="TK 17,000", place="BANGLADESH", field="Labour",
+    dict(n=8, pic="garment", fig="+36%", lab="TK 17,000", place="DHAKA", field="Labour",
          region="South Asia", time="early hours", status="CONFIRMED", pin=(23.8, 90.4),
          head="Garment pay floor lifted; unions say too low",
-         dek="Wage board sets Tk 17,000 a month, up from 12,500; factories shut.",
+         dek="Wage board: Tk 17,000 a month, up from 12,500.",
          src="Daily Star · Al Jazeera · AFP"),
-    dict(n=9, pic="treaty", fig="No.1", lab="SECURITY PARTNER", place="SOLOMON IS.", field="Security",
+    dict(n=9, pic="treaty", fig="No.1", lab="SECURITY PARTNER", place="CANBERRA", field="Diplomacy",
          region="Oceania", time="by 01:51", status="CONFIRMED", pin=(-9.4, 160.0),
-         head="Solomon Islands signs Australia treaty",
-         dek="PM Wale names Australia its 'primary security partner', curbing China ties.",
+         head="Solomon Islands signs Australia security treaty",
+         dek="Australia named 'primary security partner'; China ties curbed.",
          src="Guardian · Al Jazeera · NBC"),
-    dict(n=10, pic="grid", fig="5", lab="REGIONS HIT", place="UKRAINE", field="War",
+    dict(n=10, pic="grid", fig="5", lab="REGIONS HIT", place="KYIV", field="War",
          region="Europe", time="overnight", status="CONFIRMED", pin=(47.8, 35.2),
          head="Russian strikes cut power in five regions",
-         dek="At least five killed; Zaporizhzhia and Dnipropetrovsk worst hit.",
+         dek="At least five killed; Zaporizhzhia and Dnipro worst hit.",
          src="Al Jazeera · BBC"),
-    dict(n=11, pic="court", fig="2022", lab="REPORT UNLAWFUL", place="SOUTH AFRICA", field="Politics",
-         region="Africa", time="by 15:35", status="CONFIRMED", pin=(-33.9, 18.4),
+    dict(n=11, pic="court", fig="2022", lab="REPORT UNLAWFUL", place="CAPE TOWN", field="Politics",
+         region="Sub-Sah. Africa", time="by 15:35", status="CONFIRMED", pin=(-33.9, 18.4),
          head="Ramaphosa wins 'Farmgate' court fight",
-         dek="High Court voids the panel report that opened the way to impeachment.",
+         dek="High Court voids the panel report behind impeachment threat.",
          src="Al Jazeera · BBC"),
     dict(n=12, pic="thermo", fig="6", lab="DAYS ABOVE 2°C", place="GLOBAL", field="Climate",
          region="Global", time="by 14:52", status="REPORTED", pin=None,
-         head="Six straight days 2°C above pre-industrial",
-         dek="First such run on record, the Guardian learns; peak 2.24°C on Monday.",
+         head="World logs six straight days 2°C above pre-industrial",
+         dek="A first, the Guardian learns; peak 2.24°C on Monday.",
          src="Guardian"),
-    dict(n=13, pic="strike", fig="~15k", lab="MARCH IN ATHENS", place="GREECE", field="Labour",
+    dict(n=13, pic="strike", fig="~15k", lab="MARCH IN ATHENS", place="ATHENS", field="Labour",
          region="Europe", time="all day", status="CONFIRMED", pin=(38.0, 23.7),
-         head="Greek general strike over wages",
-         dek="Ferries, metro and flights disrupted; police count ~15,000 in Athens.",
+         head="Greek general strike halts ferries and metro",
+         dek="Wage protest; police count ~15,000 in Athens.",
          src="Reuters · AFP"),
 ]
 
+# (city, region, field, status, text, source, (lat, lon) or None)
 BRIEFS = [
-    ("Middle East", "War", "CONFIRMED", "Gaza: Israeli strike kills Hamas security chief and family", "AJ/BBC", (31.5, 34.5)),
-    ("Middle East", "War", "CLAIM", "Yemen: Houthis hit Saudi port of Jizan; coalition: minor damage", "AJ", (16.9, 42.6)),
-    ("Middle East", "Justice", "REPORTED", "Iraq top court backs federal troops at Kurdish borders", "AJ", (36.2, 44.0)),
-    ("N. America", "Environment", "CONFIRMED", "Iowa: US Army blows up ~4,500 kg of lead azide", "AJ/BBC", (41.0, -91.0)),
-    ("N. America", "Migration", "CONFIRMED", "Kilmar Abrego Garcia lands in Madrid after leaving US", "AJ/Reuters", (40.4, -3.7)),
-    ("N. America", "Tech", "OFFICIAL", "New York bans AI-chatbot toys for five years", "Guardian", (42.7, -73.8)),
-    ("Europe", "Business", "CONFIRMED", "Poundland collapses; 10,000+ UK jobs at risk", "Guardian/BBC", (52.5, -1.9)),
-    ("Europe", "Business", "REPORTED", "EU and UK fine fragrance cartel over €570m", "AFP", (50.8, 4.4)),
-    ("Europe", "Trade", "REPORTED", "EU offers UK new deal on 'Made in Europe' scheme", "BBC", (50.8, 4.4)),
-    ("Europe", "War", "REPORTED", "Leaked Rosstat files point to ~500,000 Russian war dead", "BBC Russian", (55.8, 37.6)),
-    ("East Asia", "Diplomacy", "CONFIRMED", "North Korea shuts Swiss office in Pyongyang", "AJ/BBC", (39.0, 125.8)),
-    ("SE Asia", "Security", "REPORTED", "Cambodia, China start Golden Dragon drills, ~3,000 troops", "AFP", (11.6, 104.9)),
-    ("Oceania", "Economy", "OFFICIAL", "Australian inflation hits 4.9% in year to October", "Guardian", (-35.3, 149.1)),
-    ("Oceania", "Justice", "CONFIRMED", "Sydney ex-officer guilty of double murder", "Guardian/BBC", (-33.9, 151.2)),
-    ("Africa", "Politics", "REPORTED", "Nigeria: Tinubu vows peace at Maiduguri rally", "AJ", (11.8, 13.2)),
-    ("S. America", "Security", "REPORTED", "Ecuador says US 'action plan' set after paused operations", "AJ", (-0.2, -78.5)),
-    ("S. America", "Labour", "REPORTED", "Venezuela: police clash with minimum-wage marchers", "AJ", (10.5, -66.9)),
-    ("S. America", "Finance", "REPORTED", "Brazil curbs revolving credit-card debt", "Rio Times", (-15.8, -47.9)),
-    ("S. America", "Politics", "REPORTED", "Chile's lower house passes 2027 budget, 113–9", "Rio Times", (-33.4, -70.6)),
-    ("Global", "Science", "CONFIRMED", "New close-ups of asteroid Dimorphos, 4 years after DART", "Guardian/BBC", None),
-    ("Europe", "Sport", "REPORTED", "Chess title: Gukesh–Sindarov game 2 drawn, 1–1", "Guardian", (46.2, 6.1)),
-    ("Europe", "Sport", "CONFIRMED", "Champions League: PSG 2–2 Roma; Sporting 2–2 Man Utd", "AJ/Guardian", (48.9, 2.3)),
+    ("Gaza City", "Middle East", "War", "CONFIRMED", "Israeli strike kills Hamas security chief and family", "AJ, BBC", (31.5, 34.5)),
+    ("Ras Tanura", "Middle East", "War", "CONFIRMED", "Houthi drones target refinery; Saudis say 4 downed", "AJ, NBC", (26.6, 50.1)),
+    ("Hormuz", "Middle East", "War", "CLAIM", "Iran's IRGC says two tankers hit mines, caught fire", "Arab News", (26.5, 56.3)),
+    ("Jerusalem", "Middle East", "Politics", "REPORTED", "Knesset bloc backs independent 7 October probe", "AJ", (31.8, 35.2)),
+    ("Baghdad", "Middle East", "Justice", "REPORTED", "Top court backs federal troops at Kurdish borders", "AJ", (33.3, 44.4)),
+    ("Samara", "Europe", "War", "CONFIRMED", "Ukrainian drones set two Rosneft refineries ablaze", "Kyiv Ind., Meduza", (53.2, 50.1)),
+    ("Moscow", "Europe", "War", "REPORTED", "Leaked Rosstat files point to ~500,000 war dead", "BBC Russian", (55.8, 37.6)),
+    ("London", "Europe", "Business", "CONFIRMED", "Poundland collapses; 10,000+ jobs at risk", "Guardian, BBC", (51.5, -0.1)),
+    ("London", "Europe", "Defence", "REPORTED", "RAF reportedly moves jets into hangars over drones", "Times, Sky", (51.5, -0.1)),
+    ("Brussels", "Europe", "Business", "REPORTED", "EU and UK fine fragrance cartel over €570m", "AFP", (50.8, 4.4)),
+    ("Brussels", "Europe", "Trade", "REPORTED", "EU offers UK new deal on 'Made in Europe'", "BBC", (50.8, 4.4)),
+    ("Geneva", "Europe", "Sport", "REPORTED", "Chess title: Gukesh–Sindarov game 2 drawn, 1–1", "Guardian", (46.2, 6.1)),
+    ("Paris", "Europe", "Sport", "CONFIRMED", "PSG 2–2 Roma; Sporting 2–2 Man Utd in Champions League", "AJ, Guardian", (48.9, 2.3)),
+    ("Madrid", "Europe", "Migration", "CONFIRMED", "Kilmar Abrego Garcia lands after leaving the US", "AJ, Reuters", (40.4, -3.7)),
+    ("Washington", "N. America", "Economy", "CONFIRMED", "Q3 growth revised up to 4.3%; jobless claims 189,000", "Boston Report, NTD", (38.9, -77.0)),
+    ("Iowa", "N. America", "Environment", "CONFIRMED", "US Army detonates ~4,500 kg of lead azide", "AJ, BBC", (41.0, -91.0)),
+    ("Albany", "N. America", "Tech", "OFFICIAL", "New York bans AI-chatbot toys for five years", "Guardian", (42.7, -73.8)),
+    ("New York", "N. America", "Weather", "REPORTED", "Macy's parade moved to Saturday over high winds", "Guardian", (40.7, -74.0)),
+    ("Quito", "S. America", "Security", "REPORTED", "Ecuador says US 'action plan' agreed after pause", "AJ", (-0.2, -78.5)),
+    ("Caracas", "S. America", "Labour", "REPORTED", "Police clash with minimum-wage marchers", "AJ", (10.5, -66.9)),
+    ("Brasília", "S. America", "Finance", "REPORTED", "Monetary Council curbs revolving card debt", "Rio Times", (-15.8, -47.9)),
+    ("Curitiba", "S. America", "Disaster", "REPORTED", "Paraná storm toll reaches 6, civil defence says", "Rio Times, AFP", (-25.4, -49.3)),
+    ("Valparaíso", "S. America", "Politics", "REPORTED", "Chile's lower house passes 2027 budget, 113–9", "Rio Times", (-33.0, -71.6)),
+    ("Maiduguri", "Sub-Sah. Africa", "Politics", "REPORTED", "Tinubu vows peace at rally before 16 Jan vote", "AJ", (11.8, 13.2)),
+    ("Pyongyang", "East Asia", "Diplomacy", "CONFIRMED", "North Korea shuts Switzerland's office", "AJ, BBC", (39.0, 125.8)),
+    ("Phnom Penh", "SE Asia", "Defence", "REPORTED", "Cambodia, China start Golden Dragon drills", "AFP", (11.6, 104.9)),
+    ("Canberra", "Oceania", "Economy", "OFFICIAL", "Inflation hits 4.9% in year to October", "Guardian", (-35.3, 149.1)),
+    ("Canberra", "Oceania", "Rights", "REPORTED", "Defence minister apologises to LGBTQ veterans", "Guardian", (-35.3, 149.1)),
+    ("Sydney", "Oceania", "Justice", "CONFIRMED", "Ex-police officer guilty of double murder", "Guardian, BBC", (-33.9, 151.2)),
+    ("Space", "Global", "Science", "CONFIRMED", "Close-ups of asteroid Dimorphos, 4 years after DART", "Guardian, BBC", None),
 ]
 
-DATE_CHECK = [
-    "Huawei convicted in Brooklyn — 24 Nov", "Serbia school shooting — 24 Nov",
-    "Cartagena hostage siege began — 24 Nov", "China probes Politburo's Chen Jining — 24 Nov",
-    "RSF drone strikes on Damazin — late 24 Nov", "West Java mine flood — 23 Nov",
-    "Sinner knee surgery — 24 Nov",
-]
+DATE_CHECK = ("Huawei convicted in Brooklyn (Tue 24) · Coalition strike on Hodeidah (Tue 24) · "
+              "Serbia school shooting (Tue 24) · Cartagena siege began (Tue 24) · UN femicide report "
+              "(Tue 24) · Probe of Politburo's Chen Jining (Tue 24) · Sinner knee surgery (Tue 24) · "
+              "Huang back at Nvidia (Mon 23) · West Java mine flood (Mon 23)")
+NOT_YET = ("US Thanksgiving (Thu 26) · MLB labour deal expires (1 Dec) · Puigdemont's return (12 Dec) · "
+           "UK price cap rise (1 Jan) · Nigeria election (16 Jan)")
 
 UTC = [
-    ("00:18", "Shenzhou-24 lifts off with Pakistani astronaut"),
-    ("~05:30", "Taiwan's Taiex closes 4.8% down"),
-    ("by 14:55", "USTR tariff plan on 14 partners out"),
-    ("15:00", "US Army detonates lead azide in Iowa"),
-    ("by 18:55", "Tanker fire on Cairo ring road kills 31"),
-    ("by 19:13", "FCC approves SpaceX 'Starmind'"),
-    ("21:00", "Wall St closes: S&P 500 −0.3%"),
+    ("00:18", "Shenzhou-24 lifts off"), ("~05:30", "Taiex closes −4.8%"), ("by 14:55", "USTR tariff plan"),
+    ("15:00", "Iowa Army blast"), ("by 18:55", "Cairo tanker fire"), ("by 19:13", "FCC clears Starmind"),
+    ("21:00", "S&P 500 ends −0.3%"),
 ]
 
 NUMBERS = [
     ("14", "partners in new US tariff plan"),
-    ("−6.2%", "South Korea's Kospi"),
+    ("−6.2%", "Kospi close, worst in AI sell-off"),
     ("31", "killed in Cairo tanker fire"),
-    ("1M", "orbital compute modules cleared by FCC"),
-    ("+26%", "UK energy price cap, Jan"),
-    ("4.9%", "Australian inflation, Oct"),
+    ("+26%", "UK energy price cap from January"),
+    ("1M", "orbital compute modules cleared"),
+    ("4.3%", "US Q3 growth, revised up"),
 ]
 
 ALL = LEADS + CARDS
-REGION_ORDER = ["N. America", "S. America", "Europe", "Middle East", "Africa",
-                "South Asia", "East Asia", "SE Asia", "Oceania", "Global"]
-region_count = {r: 0 for r in REGION_ORDER}
-fields = set()
+region_count = {r[0]: 0 for r in REGIONS}
+field_count = {}
 for s in ALL:
     region_count[s["region"]] += 1
-    fields.add(s["field"])
+    field_count[s["field"]] = field_count.get(s["field"], 0) + 1
 for b in BRIEFS:
-    region_count[b[0]] += 1
-    fields.add(b[1])
+    region_count[b[1]] += 1
+    field_count[b[2]] = field_count.get(b[2], 0) + 1
 N_STORIES = len(ALL) + len(BRIEFS)
-N_REGIONS = sum(1 for r in REGION_ORDER if r != "Global" and region_count[r])
-N_FIELDS = len(fields)
+N_REGIONS = sum(1 for r in REGIONS if r[0] != "Global" and region_count[r[0]])
+N_FIELDS = len(field_count)
+assert sum(region_count.values()) == N_STORIES
+
 
 
 # ---------------------------------------------------------------- pictures
@@ -542,54 +565,54 @@ def picture(s, x, y, w, h, big=False):
     d = main_d
     box = tuple(P(x, y, x + w, y + h))
     img.paste(layer.crop(box), box[:2])
-    # key figure, boxed for contrast, bottom-left
-    f = font("black", 30 if big else 19)
+    # key figure on a white plate, bottom-left, with its label chip
+    f = font("black", 28 if big else 18)
     fw = tw(s["fig"], f)
-    bh = 34 if big else 23
+    bh = 32 if big else 22
     rect(x + 4, y + h - bh - 4, fw + 10, bh, fill=(255, 255, 255))
     text(x + 9, y + h - 4 - bh / 2 + 1, s["fig"], f, INK, anchor="lm")
     lf = font("heavy", 10 if big else 8.5)
     chip(x + 4 + fw + 10, y + h - 4 - (15 if big else 12), s["lab"], INK, f=lf, h=15 if big else 12)
-    # number badge
-    ellipse(x + w - 22, y + 4, 18, 18, fill=RED)
-    text(x + w - 13, y + 13.5, str(s["n"]), font("heavy", 10.5), (255, 255, 255), anchor="mm")
+    # story number in the region's colour
+    r = 10 if big else 8.5
+    ellipse(x + w - 2 * r - 4, y + 4, 2 * r, 2 * r, fill=RCOL[s["region"]], outline=(255, 255, 255), width=1)
+    text(x + w - r - 4, y + 4 + r + 0.5, str(s["n"]), font("heavy", 11 if big else 9.5), (255, 255, 255),
+         anchor="mm")
     rect(x, y, w, h, outline=INK, width=0.8)
 
 
-def meta_row(s, x, y, w, small=False):
-    f = font("demi", 9.5 if not small else 8.5)
+def meta_row(s, x, y, w, big=False):
+    f = font("demi", 10 if big else 8.8)
     t = f"{s['place']} · {s['field'].upper()}"
-    text(x, y, t, f, RED, maxw=w - 70, tag=t)
-    chip(x + w, y - 0.5, s["status"], STATUS[s["status"]], anchor_right=True, h=11.5,
-         f=font("heavy", 8))
+    text(x, y, t, f, RCOL[s["region"]], maxw=w - 66, tag=t)
+    chip(x + w, y - 0.5, s["status"], STATUS[s["status"]], anchor_right=True, h=11.5, f=font("heavy", 8))
 
 
 def lead_card(s, x, y, w, h):
-    rect(x, y, w, h, fill=(255, 253, 248), outline=RULE, width=0.8)
-    pic_h = 100
-    picture(s, x + 6, y + 6, w - 12, pic_h, big=True)
-    cy = y + pic_h + 12
-    meta_row(s, x + 8, cy, w - 16)
-    hf = font("serif", 18)
-    n = para(x + 8, cy + 14, s["head"], hf, w - 16, 20, 2, tag=s["head"])
-    dy = cy + 14 + n * 20 + 3
-    para(x + 8, dy, s["dek"], font("roman", 11), w - 16, 13.4, 3, GREY, tag="dek" + str(s["n"]))
-    text(x + 8, y + h - 6, "Sources: " + s["src"], font("med", 8.5), GREY, anchor="ls")
-    text(x + w - 8, y + h - 6, s["time"], font("med", 8.5), GREY, anchor="rs")
+    pic_h = 104
+    picture(s, x, y, w, pic_h, big=True)
+    cy = y + pic_h + 6
+    meta_row(s, x, cy, w, big=True)
+    n = para(x, cy + 13, s["head"], font("black", 18.5), w, 20.5, 2, tag=s["head"])
+    dy = cy + 13 + n * 20.5 + 2
+    m = para(x, dy, s["dek"], font("sans", 10.6), w, 12.6, 2, (60, 60, 66), tag="dek" + str(s["n"]))
+    wy = dy + m * 12.6 + 3
+    text(x, wy, "WHY IT MATTERS", font("heavy", 9), RED)
+    para(x + 74, wy, s["why"], font("med", 9.6), w - 74, 11, 1, INK, tag="why" + str(s["n"]))
+    text(x, y + h, s["src"], font("med", 8.5), GREY, anchor="ls")
+    text(x + w, y + h, s["time"], font("med", 8.5), GREY, anchor="rs")
 
 
 def small_card(s, x, y, w, h):
-    rect(x, y, w, h, fill=(255, 253, 248), outline=RULE, width=0.8)
-    pic_h = 70
-    picture(s, x + 5, y + 5, w - 10, pic_h)
-    cy = y + pic_h + 10
-    meta_row(s, x + 6, cy, w - 12, small=True)
-    hf = font("serif", 13)
-    n = para(x + 6, cy + 13, s["head"], hf, w - 12, 14.5, 2, tag=s["head"])
-    para(x + 6, cy + 13 + n * 14.5 + 1, s["dek"], font("roman", 9.5), w - 12, 11.2, 2, GREY,
-         tag="dek" + str(s["n"]))
-    text(x + 6, y + h - 5, s["src"], font("med", 8), GREY, anchor="ls")
-    text(x + w - 6, y + h - 5, s["time"], font("med", 8), GREY, anchor="rs")
+    pic_h = 62
+    picture(s, x, y, w, pic_h)
+    cy = y + pic_h + 5
+    meta_row(s, x, cy, w)
+    n = para(x, cy + 12, s["head"], font("black", 12.6), w, 14, 2, tag=s["head"])
+    para(x, cy + 12 + n * 14 + 1, s["dek"], font("sans", 9.4), w, 11, 2, (60, 60, 66), tag="dek" + str(s["n"]))
+    text(x, y + h, s["src"], font("med", 8), GREY, anchor="ls")
+    text(x + w, y + h, s["time"], font("med", 8), GREY, anchor="rs")
+
 
 
 # ---------------------------------------------------------------- world map
@@ -633,13 +656,13 @@ def inside(px, py, pg):
 
 
 def world_map(x, y, w, h):
-    rect(x, y, w, h, fill=(232, 238, 242), outline=RULE, width=0.8)
-    lat0, lat1 = 78, -50
+    rect(x, y, w, h, fill=(228, 235, 240))
+    lat0, lat1 = 76, -48
 
     def proj(lat, lon):
         return x + (lon + 180) / 360 * w, y + (lat0 - lat) / (lat0 - lat1) * h
 
-    step = 4.2
+    step = 4.0
     yy = y + step / 2
     while yy < y + h - 2:
         xx = x + step / 2
@@ -647,17 +670,17 @@ def world_map(x, y, w, h):
             lon = (xx - x) / w * 360 - 180
             lat = lat0 - (yy - y) / h * (lat0 - lat1)
             if any(inside(lon, lat, pg) for pg in LAND):
-                ellipse(xx - 1.1, yy - 1.1, 2.2, 2.2, fill=(150, 160, 170))
+                ellipse(xx - 1.1, yy - 1.1, 2.2, 2.2, fill=(160, 168, 178))
             xx += step
         yy += step
     for b in BRIEFS:
-        if b[5]:
-            px, py = proj(*b[5])
-            ellipse(px - 1.8, py - 1.8, 3.6, 3.6, fill=STATUS[b[2]])
-    # numbered pins pushed apart; leader line from true spot to label
-    pins = [(s["n"], *proj(*s["pin"])) for s in ALL if s["pin"]]
-    pos = {n: [px, py] for n, px, py in pins}
-    for _ in range(200):
+        if b[6]:
+            px, py = proj(*b[6])
+            ellipse(px - 2.2, py - 2.2, 4.4, 4.4, fill=RCOL[b[1]], outline=(255, 255, 255), width=0.5)
+    # numbered pins for leads and cards, pushed apart; leader line to the true spot
+    pins = [(s["n"], s["region"], *proj(*s["pin"])) for s in ALL if s["pin"]]
+    pos = {n: [px, py] for n, _, px, py in pins}
+    for _ in range(300):
         for a in pos:
             for b in pos:
                 if a >= b:
@@ -675,124 +698,157 @@ def world_map(x, y, w, h):
         for n in pos:
             pos[n][0] = min(max(pos[n][0], x + 8), x + w - 8)
             pos[n][1] = min(max(pos[n][1], y + 8), y + h - 8)
-    for n, px, py in pins:
+    for n, _, px, py in pins:
         qx, qy = pos[n]
         if math.hypot(qx - px, qy - py) > 2:
             line([(px, py), (qx, qy)], fill=INK, width=0.7)
-        ellipse(px - 1.6, py - 1.6, 3.2, 3.2, fill=INK)
-    for n, px, py in pins:
+        ellipse(px - 1.5, py - 1.5, 3, 3, fill=INK)
+    for n, reg, px, py in pins:
         qx, qy = pos[n]
-        ellipse(qx - 6.5, qy - 6.5, 13, 13, fill=RED, outline=(255, 255, 255), width=0.8)
+        ellipse(qx - 6.5, qy - 6.5, 13, 13, fill=RCOL[reg], outline=(255, 255, 255), width=0.8)
         text(qx, qy + 0.5, str(n), font("heavy", 8.5), (255, 255, 255), anchor="mm")
-
 
 
 # ---------------------------------------------------------------- page
 M = 14  # outer margin
+NAVYBAR = (22, 30, 52)
+
+# top band
+rect(0, 0, W, 19, fill=NAVYBAR)
+text(M, 9.8, "THE WORLD IN ONE DAY", font("heavy", 10.5), (255, 255, 255), anchor="lm")
+text(W - M, 9.8, f"{N_STORIES} STORIES · {N_REGIONS} REGIONS · {N_FIELDS} FIELDS · ALL FIRST REPORTED ON "
+     "WEDNESDAY 25 NOVEMBER 2026", font("heavy", 10.5), (255, 214, 120), anchor="rm")
 
 # masthead
-text(M, 9, "THE WORLD IN ONE PAGE · DAILY NEWS SUMMARY", font("heavy", 10), RED)
-text(M, 20, "Wednesday 25 November 2026", font("black", 38), INK, maxw=700)
-box_w = 250
-rect(W - M - box_w, 12, box_w, 44, fill=INK)
-text(W - M - box_w / 2, 26, f"{N_STORIES} STORIES · {N_REGIONS} REGIONS", font("heavy", 15),
-     (255, 255, 255), anchor="mm")
-text(W - M - box_w / 2, 44, f"+ global · {N_FIELDS} fields · each tagged by status", font("med", 10.5),
-     (220, 220, 220), anchor="mm")
-line([(M, 66), (W - M, 66)], INK, 1.6)
-strap = ("US proposes tariffs on 14 partners  ·  Pakistan's first astronaut docks at Tiangong  ·  "
-         "AI jitters hit Asian markets  ·  31 die in Cairo tanker fire")
-text(W / 2, 76, strap, font("roman", 12), INK, anchor="mm", maxw=W - 2 * M)
-line([(M, 86), (W - M, 86)], INK, 0.6)
+text(W / 2, 54, "Wednesday 25 November 2026", font("black", 60), INK, anchor="mm", maxw=W - 2 * M)
+strap = ("US proposes tariffs on 14 partners · AI doubts sink Asian chip stocks · "
+         "Pakistan's first astronaut docks at Tiangong")
+text(W / 2, 98, strap, font("roman", 14), RED, anchor="mm", maxw=W - 2 * M)
 
-# THE DAY IN UTC
-ty = 91
-text(M, ty, "THE DAY IN UTC", font("heavy", 9.5), RED)
-cw = (W - 2 * M - 92) / len(UTC)
-for i, (t, s) in enumerate(UTC):
-    cx = M + 92 + i * cw
-    rect(cx, ty - 3, cw - 3, 36, fill=(255, 253, 248), outline=RULE, width=0.6)
-    text(cx + 4, ty, t, font("heavy", 11), NAVY)
-    para(cx + 4, ty + 12.5, s, font("med", 8.8), cw - 10, 9.4, 2, tag="utc" + t)
-text(M, ty + 12, "~ = approximate", font("med", 8), GREY)
-
-# THE DAY IN NUMBERS
-ny = 132
-text(M, ny + 2, "THE DAY IN", font("heavy", 9.5), RED)
-text(M, ny + 13, "NUMBERS", font("heavy", 9.5), RED)
-cw = (W - 2 * M - 92) / len(NUMBERS)
-for i, (num, s) in enumerate(NUMBERS):
-    cx = M + 92 + i * cw
-    rect(cx, ny - 3, cw - 3, 32, fill=(255, 253, 248), outline=RULE, width=0.6)
-    nf = font("black", 17)
-    text(cx + 5, ny + 12, num, nf, RED, anchor="lm")
-    para(cx + 10 + tw(num, nf), ny + 2, s, font("med", 9), cw - 18 - tw(num, nf), 10, 2, tag="num" + num)
-
-# region bar
-ry = 167
+# region bar: segments sized by story count
+ry = 108
+tot = N_STORIES
 x0 = M
-text(x0, ry, "REGIONS", font("heavy", 9.5), RED)
-x0 += 64
-for r in REGION_ORDER:
-    lab = f"{r} {region_count[r]}"
-    wch = chip(x0, ry - 1, lab, NAVY if r != "Global" else GREY, f=font("bold", 9.5), h=13, pad=5)
-    x0 += wch + 5
-if x0 > W - M:
-    WARN.append(f"region bar overflow {x0}")
+avail = W - 2 * M
+minw = 64
+used = [r for r in REGIONS if region_count[r[0]]]
+extra = avail - minw * len(used)
+for name, lab, col in used:
+    segw = minw + extra * region_count[name] / tot
+    rect(x0, ry, segw - 1.5, 15, fill=col)
+    text(x0 + segw / 2, ry + 7.8, f"{lab} {region_count[name]}", font("heavy", 9), (255, 255, 255),
+         anchor="mm", maxw=segw - 4, tag=lab)
+    x0 += segw
+fy = ry + 22
+flist = sorted(field_count.items(), key=lambda kv: (-kv[1], kv[0]))
+ftxt = f"{N_FIELDS} FIELDS   " + "  ·  ".join(f"{k} {v}" for k, v in flist)
+text(M, fy, ftxt, font("med", 9), GREY, anchor="lm", maxw=W - 2 * M, tag="fields")
+
+# the day in numbers
+ny = 140
+cw = (W - 2 * M) / len(NUMBERS)
+for i, (num, s) in enumerate(NUMBERS):
+    cx = M + i * cw
+    if i:
+        line([(cx, ny + 2), (cx, ny + 30)], fill=RULE, width=0.8)
+    nf = font("black", 25)
+    text(cx + 6, ny + 16, num, nf, RED if num[0] in "−+" else INK, anchor="lm")
+    para(cx + 12 + tw(num, nf), ny + 5, s, font("med", 9.6), cw - 18 - tw(num, nf), 10.8, 2,
+         tag="num" + num)
+line([(M, ny + 36), (W - M, ny + 36)], INK, 1.2)
+
+# the day in UTC, one strip
+uy = ny + 41
+rect(M, uy, W - 2 * M, 17, fill=NAVYBAR)
+text(M + 6, uy + 8.8, "THE DAY IN UTC", font("heavy", 9.5), (255, 214, 120), anchor="lm")
+ux = M + 92
+seg = (W - M - ux) / len(UTC)
+for i, (t, s) in enumerate(UTC):
+    text(ux + i * seg, uy + 8.8, t, font("heavy", 9.5), (255, 255, 255), anchor="lm")
+    text(ux + i * seg + tw(t, font("heavy", 9.5)) + 4, uy + 8.8, s, font("med", 9.5), (200, 208, 224),
+         anchor="lm", maxw=seg - tw(t, font("heavy", 9.5)) - 8, tag="utc" + t)
 
 # leads
-ly, lh = 184, 234
-lw = (W - 2 * M - 2 * 8) / 3
+ly, lh = uy + 24, 222
+gap = 12
+lw = (W - 2 * M - 2 * gap) / 3
 for i, s in enumerate(LEADS):
-    lead_card(s, M + i * (lw + 8), ly, lw, lh)
+    lead_card(s, M + i * (lw + gap), ly, lw, lh)
+line([(M, ly + lh + 6), (W - M, ly + lh + 6)], RULE, 0.8)
 
 # cards: two rows of five
-cy0, ch = ly + lh + 7, 170
-cwid = (W - 2 * M - 4 * 6) / 5
+cy0, ch = ly + lh + 12, 140
+cg = 10
+cwid = (W - 2 * M - 4 * cg) / 5
 for i, s in enumerate(CARDS):
     r, c = divmod(i, 5)
-    small_card(s, M + c * (cwid + 6), cy0 + r * (ch + 6), cwid, ch)
+    small_card(s, M + c * (cwid + cg), cy0 + r * (ch + 9), cwid, ch)
 
-# bottom band: map + briefs
-by = cy0 + 2 * ch + 12
-mw, mh = 330, 166
-text(M, by, "WHERE IT HAPPENED", font("heavy", 9.5), RED)
-text(M + 112, by + 1, "numbered pins = cards · dots = briefs · 12 is global", font("med", 8), GREY)
-world_map(M, by + 13, mw, mh)
+# bottom band: map + numbered briefs
+by = cy0 + 2 * ch + 9 + 9
+line([(M, by - 4), (W - M, by - 4)], INK, 1.2)
+mw, mh = 292, 150
+text(M, by + 4, "WHERE IT HAPPENED", font("heavy", 9.5), RED)
+text(M + mw, by + 4.5, "pins = story numbers · dots = briefs", font("med", 8), GREY, anchor="ra")
+world_map(M, by + 16, mw, mh)
+lx = M
+lgy = by + 16 + mh + 5
+for name, lab, col in REGIONS:
+    if not region_count[name]:
+        continue
+    t = lab.title().replace("Sub-Sah.", "Sub-Sah.").replace("Se ", "SE ").replace("E. Asia", "E. Asia")
+    wv = tw(t, font("med", 7.8)) + 12
+    if lx + wv > M + mw:
+        lx = M
+        lgy += 10
+    ellipse(lx, lgy + 1, 6, 6, fill=col)
+    text(lx + 8, lgy, t, font("med", 7.8), GREY)
+    lx += wv + 4
 
-bx = M + mw + 12
-text(bx, by, "ALSO ON 25 NOVEMBER", font("heavy", 9.5), RED)
-colw = (W - M - bx - 10) / 2
-bf = font("sans", 9.6)
-of = font("med", 8.3)
+bx = M + mw + 14
+text(bx, by + 4, "ALSO ON WEDNESDAY 25 NOVEMBER", font("heavy", 9.5), RED)
+colw = (W - M - bx - 12) / 2
 per_col = math.ceil(len(BRIEFS) / 2)
-for i, (reg, fld, st, t, src, _) in enumerate(BRIEFS):
+cityf = font("demi", 9.4)
+bf = font("sans", 9.0)
+LETTER = {"CONFIRMED": "C", "OFFICIAL": "O", "REPORTED": "R", "CLAIM": "CL"}
+for i, (city, reg, fld, st, t, src, _) in enumerate(BRIEFS):
+    n = len(ALL) + 1 + i
     col, row = divmod(i, per_col)
-    xx = bx + col * (colw + 10)
-    yy = by + 9 + row * 14.6
-    ellipse(xx, yy + 2.5, 6, 6, fill=STATUS[st])
-    srcw = tw(src, of)
-    text(xx + 9, yy, t, bf, INK, maxw=colw - 14 - srcw, tag=t)
-    text(xx + colw, yy + 1.2, src, of, GREY, anchor="ra")
+    xx = bx + col * (colw + 12)
+    yy = by + 18 + row * 12.1
+    ellipse(xx, yy - 0.5, 11, 11, fill=RCOL[reg])
+    text(xx + 5.5, yy + 5, str(n), font("heavy", 7.2), (255, 255, 255), anchor="mm")
+    text(xx + 14, yy + 5, city, cityf, RCOL[reg], anchor="lm")
+    tx = xx + 14 + tw(city, cityf) + 4
+    lt = LETTER[st]
+    lw_ = tw(lt, font("heavy", 7.5)) + 5
+    text(tx, yy + 5, t, bf, INK, anchor="lm", maxw=xx + colw - tx - lw_ - 3, tag=t)
+    chip(xx + colw, yy, lt, STATUS[st], f=font("heavy", 7.5), h=10, pad=2.5, anchor_right=True)
 
-# date check + legend + sources
-dy = by + mh + 19
-rect(M, dy, W - 2 * M, 30, fill=(255, 250, 236), outline=RED, width=1)
-text(M + 6, dy + 4, "DATE CHECK", font("heavy", 9.5), RED)
-text(M + 6, dy + 16, "left out as earlier news:", font("med", 8.3), GREY)
-dc = "  ·  ".join(DATE_CHECK)
-para(M + 112, dy + 4, dc, font("med", 9.2), W - 2 * M - 120, 11, 2, tag="datecheck")
+# date check
+dy = by + 18 + per_col * 12.1 + 6
+dh = 50
+rect(M, dy, W - 2 * M, dh, fill=(255, 250, 236), outline=RED, width=1.2)
+text(M + 7, dy + 5, "DATE CHECK", font("heavy", 10.5), RED)
+text(M + 92, dy + 5, "Every story above happened, or was first reported, on Wednesday 25 November 2026.",
+     font("demi", 10), INK, maxw=W - 2 * M - 100)
+text(M + 7, dy + 19, "LEFT OUT", font("heavy", 8.6), GREY)
+para(M + 92, dy + 18.5, DATE_CHECK, font("med", 8.8), W - 2 * M - 100, 10, 2, (60, 60, 66), tag="dc")
+text(M + 7, dy + 39.5, "NOT YET", font("heavy", 8.6), GREY)
+text(M + 92, dy + 39, NOT_YET, font("med", 8.8), (60, 60, 66), maxw=W - 2 * M - 100, tag="notyet")
 
-gy = dy + 40
+# legend + sources
+gy = dy + dh + 9
 x0 = M
 for k, v in STATUS.items():
-    x0 += chip(x0, gy - 6, k, v, f=font("heavy", 8), h=11.5) + 4
+    x0 += chip(x0, gy - 5.5, k, v, f=font("heavy", 7.8), h=11) + 4
     desc = {"CONFIRMED": "2+ outlets", "OFFICIAL": "on-record statement", "REPORTED": "one outlet",
             "CLAIM": "one side's claim"}[k]
-    text(x0, gy, desc, font("med", 8.5), GREY, anchor="lm")
-    x0 += tw(desc, font("med", 8.5)) + 12
-text(W - M, gy, "Sources: Al Jazeera, BBC, Guardian, Reuters, AP, AFP, NBC, Daily Star, Rio Times · times UTC",
-     font("med", 8.5), GREY, anchor="rm")
+    text(x0, gy, desc, font("med", 8.3), GREY, anchor="lm")
+    x0 += tw(desc, font("med", 8.3)) + 10
+text(W - M, gy, "Sources: Al Jazeera, BBC, Guardian, Reuters, AP, AFP, NBC, Daily Star, Kyiv Independent, "
+     "Rio Times · times UTC", font("med", 8.3), GREY, anchor="rm")
 
 for wmsg in WARN:
     print("WARN", wmsg)
