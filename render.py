@@ -184,23 +184,19 @@ CARDS = [
 
 BRIEFS = [
     ("Middle East", "War", "CONFIRMED", "Gaza: Israeli strike kills Hamas security chief and family", "AJ/BBC", (31.5, 34.5)),
-    ("Middle East", "War", "CONFIRMED", "Houthi drones target Saudi Ras Tanura refinery, Jizan port", "NBC/AJ", (26.6, 50.1)),
-    ("Middle East", "Politics", "REPORTED", "Knesset bloc backs independent probe into 7 October attack", "AJ", (31.8, 35.2)),
+    ("Middle East", "War", "CLAIM", "Yemen: Houthis hit Saudi port of Jizan; coalition: minor damage", "AJ", (16.9, 42.6)),
     ("Middle East", "Justice", "REPORTED", "Iraq top court backs federal troops at Kurdish borders", "AJ", (36.2, 44.0)),
     ("N. America", "Environment", "CONFIRMED", "Iowa: US Army blows up ~4,500 kg of lead azide", "AJ/BBC", (41.0, -91.0)),
     ("N. America", "Migration", "CONFIRMED", "Kilmar Abrego Garcia lands in Madrid after leaving US", "AJ/Reuters", (40.4, -3.7)),
     ("N. America", "Tech", "OFFICIAL", "New York bans AI-chatbot toys for five years", "Guardian", (42.7, -73.8)),
-    ("N. America", "Weather", "REPORTED", "Macy's Thanksgiving parade moved to Saturday over winds", "Guardian", (40.7, -74.0)),
     ("Europe", "Business", "CONFIRMED", "Poundland collapses; 10,000+ UK jobs at risk", "Guardian/BBC", (52.5, -1.9)),
     ("Europe", "Business", "REPORTED", "EU and UK fine fragrance cartel over €570m", "AFP", (50.8, 4.4)),
     ("Europe", "Trade", "REPORTED", "EU offers UK new deal on 'Made in Europe' scheme", "BBC", (50.8, 4.4)),
     ("Europe", "War", "REPORTED", "Leaked Rosstat files point to ~500,000 Russian war dead", "BBC Russian", (55.8, 37.6)),
-    ("Europe", "Defence", "REPORTED", "RAF reportedly moves jets into hangars over drone threat", "Times/Sky", (52.4, 0.5)),
     ("East Asia", "Diplomacy", "CONFIRMED", "North Korea shuts Swiss office in Pyongyang", "AJ/BBC", (39.0, 125.8)),
     ("SE Asia", "Security", "REPORTED", "Cambodia, China start Golden Dragon drills, ~3,000 troops", "AFP", (11.6, 104.9)),
     ("Oceania", "Economy", "OFFICIAL", "Australian inflation hits 4.9% in year to October", "Guardian", (-35.3, 149.1)),
     ("Oceania", "Justice", "CONFIRMED", "Sydney ex-officer guilty of double murder", "Guardian/BBC", (-33.9, 151.2)),
-    ("Oceania", "Rights", "REPORTED", "Australia's defence minister apologises to LGBTQ veterans", "Guardian", (-35.3, 149.1)),
     ("Africa", "Politics", "REPORTED", "Nigeria: Tinubu vows peace at Maiduguri rally", "AJ", (11.8, 13.2)),
     ("S. America", "Security", "REPORTED", "Ecuador says US 'action plan' set after paused operations", "AJ", (-0.2, -78.5)),
     ("S. America", "Labour", "REPORTED", "Venezuela: police clash with minimum-wage marchers", "AJ", (10.5, -66.9)),
@@ -209,7 +205,6 @@ BRIEFS = [
     ("Global", "Science", "CONFIRMED", "New close-ups of asteroid Dimorphos, 4 years after DART", "Guardian/BBC", None),
     ("Europe", "Sport", "REPORTED", "Chess title: Gukesh–Sindarov game 2 drawn, 1–1", "Guardian", (46.2, 6.1)),
     ("Europe", "Sport", "CONFIRMED", "Champions League: PSG 2–2 Roma; Sporting 2–2 Man Utd", "AJ/Guardian", (48.9, 2.3)),
-    ("Europe", "Sport", "CONFIRMED", "Raheem Sterling avoids jail for dangerous driving", "Guardian/BBC", (51.3, -1.1)),
 ]
 
 DATE_CHECK = [
@@ -768,13 +763,13 @@ world_map(M, by + 13, mw, mh)
 bx = M + mw + 12
 text(bx, by, "ALSO ON 25 NOVEMBER", font("heavy", 9.5), RED)
 colw = (W - M - bx - 10) / 2
-bf = font("sans", 9.4)
+bf = font("sans", 9.6)
 of = font("med", 8.3)
 per_col = math.ceil(len(BRIEFS) / 2)
 for i, (reg, fld, st, t, src, _) in enumerate(BRIEFS):
     col, row = divmod(i, per_col)
     xx = bx + col * (colw + 10)
-    yy = by + 9 + row * 12.45
+    yy = by + 9 + row * 14.6
     ellipse(xx, yy + 2.5, 6, 6, fill=STATUS[st])
     srcw = tw(src, of)
     text(xx + 9, yy, t, bf, INK, maxw=colw - 14 - srcw, tag=t)

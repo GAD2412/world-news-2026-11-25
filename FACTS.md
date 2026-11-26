@@ -35,16 +35,11 @@ by the body concerned · **REPORTED** = one outlet · **CLAIM** = one side's sta
 | Story | Sources | Status |
 |---|---|---|
 | Gaza: Israeli strike kills Hamas internal-security chief Abu al-Awf and family in Shati camp; ≥7 killed | Al Jazeera 11:24; BBC 14:06 | CONFIRMED |
-| Houthi drones target Saudi Arabia's Ras Tanura refinery (Wednesday morning; Saudi says 4 drones intercepted, NBC cites satellite smoke) and later the port of Jizan | Al Jazeera 08:23 & 23:33; NBC 17:17 | CONFIRMED |
-| Knesset bloc led by Eisenkot votes for an independent probe into the 7 October attack | Al Jazeera 20:29 | REPORTED |
+| Yemen: Houthis strike Saudi port of Jizan; coalition says minor damage, drone downed over Jeddah | Al Jazeera 23:33 | CLAIM |
 | Iraq: Federal Supreme Court says federal troops may deploy at Kurdish-region borders | Al Jazeera 17:29 (state TV) | REPORTED |
 | Iowa: US Army detonates ~4,500 kg of lead azide at ~15:00 UTC | Al Jazeera 15:14; BBC 14:05; Guardian; CNN | CONFIRMED |
 | Kilmar Abrego Garcia lands in Madrid after leaving the US | Al Jazeera; Guardian; Reuters; RFI | CONFIRMED |
 | New York: Hochul signs 5-year ban on AI-chatbot toys | Guardian 15:29 | OFFICIAL |
-| Macy's Thanksgiving parade moved to Saturday over high winds | Guardian 21:08 | REPORTED |
-| RAF reportedly moving jets into hangars over drone threat (Times, Sky; MoD does not confirm) | Al Jazeera 19:15 | REPORTED |
-| Australia's defence minister apologises to LGBTQ veterans | Guardian video 25 Nov | REPORTED |
-| Raheem Sterling: 12-month suspended sentence for dangerous driving | Guardian 11:34; Al Jazeera; BBC 17:17 | CONFIRMED |
 | UK: Poundland enters administration, 10,000+ jobs at risk | Guardian 18:50; BBC 17:00 | CONFIRMED |
 | EU & UK fine Givaudan, Firmenich, IFF >€570m over fragrance cartel | AFP (cited on Wikipedia) | REPORTED |
 | EU offers UK fresh deal on "Made in Europe" scheme | BBC 10:59 | REPORTED |
@@ -61,6 +56,8 @@ by the body concerned · **REPORTED** = one outlet · **CLAIM** = one side's sta
 | Dimorphos: close-up images four years after NASA's DART impact | Guardian 18:48; BBC 20:11 | CONFIRMED |
 | Chess: Gukesh–Sindarov game 2 drawn in 20 moves, 1–1 | Guardian 18:16 | REPORTED |
 | Champions League: PSG 2–2 Roma; Sporting 2–2 Man Utd | Al Jazeera 22:15, 22:41; Guardian | CONFIRMED |
+| Raheem Sterling: 12-month suspended sentence for dangerous driving | Guardian 11:34; Al Jazeera; BBC | CONFIRMED |
+| Ukraine says Blysk laser downed a Russian jet drone | Al Jazeera video 25 Nov | CLAIM |
 
 ## Date check — left out (happened or first reported before 25 Nov)
 
@@ -72,5 +69,4 @@ by the body concerned · **REPORTED** = one outlet · **CLAIM** = one side's sta
 - West Java gold-mine flood — 23 Nov (Al Jazeera)
 - Sinner knee surgery — announced 24 Nov (Al Jazeera)
 - WHO chief's call to lift US fuel blockade of Cuba — 24 Nov (Al Jazeera)
-- Hodeidah air strike by the Saudi-led coalition — 24 Nov (Al Jazeera)
 - Not used: Wall Street "tumble" headline — AP shows a mixed close, so the image gives the intraday low and the close.
