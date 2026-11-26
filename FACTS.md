@@ -43,6 +43,10 @@ by the body concerned · **REPORTED** = one outlet · **CLAIM** = one side's sta
 | Paraná: storm toll reaches 6, civil defence confirms 25 Nov | Rio Times; AFP via Insider Paper | REPORTED |
 | RAF reportedly moving jets into hangars over drone threat (Times, Sky; MoD does not confirm) | Al Jazeera 19:15 | REPORTED |
 | Macy's Thanksgiving parade moved to Saturday over high winds | Guardian 21:08 | REPORTED |
+| MLB sues players' union in Manhattan federal court ahead of likely lockout | Guardian 18:53 | REPORTED |
+| Puigdemont says (from Brussels) he will return to Spain on 12 Dec | Al Jazeera 12:25 | REPORTED |
+| Raheem Sterling: 12-month suspended sentence for dangerous driving | Guardian 11:34; Al Jazeera; BBC 17:17 | CONFIRMED |
+| Ukraine says its Blysk laser downed a Russian jet-powered drone | Al Jazeera video 25 Nov | CLAIM |
 | Australia's defence minister apologises to LGBTQ veterans | Guardian video 25 Nov | REPORTED |
 | Iraq: Federal Supreme Court says federal troops may deploy at Kurdish-region borders | Al Jazeera 17:29 (state TV) | REPORTED |
 | Iowa: US Army detonates ~4,500 kg of lead azide at ~15:00 UTC | Al Jazeera 15:14; BBC 14:05; Guardian; CNN | CONFIRMED |
